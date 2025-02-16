@@ -1,5 +1,5 @@
 <div align="center">
-<h1>Cover-Recoverable Invisible Robust Image Watermarking</h1>
+<h1>Cover-Recoverable Deep Invisible Robust Image Watermarking</h1>
 
 Jiale Chen<sup>1</sup>, Wei Wang<sup>2,3</sup>, Chongyang Shi<sup>1</sup>, Li Dong<sup>4</sup>, Xiping Hu<sup>2,3</sup>
 
