@@ -18,7 +18,7 @@ Jiale Chen<sup>1</sup>, Wei Wang<sup>2,3</sup>, Chongyang Shi<sup>1</sup>, Li Do
 
 This repository contains the official implementation of **Deep Robust Reversible Watermarking (DRRW)**, a robust and cover-recoverable invisible image watermarking method. DRRW enables perfect reconstruction of the original cover image in lossless channels and robust watermark extraction in lossy channels.
 
-DRRW leverages an **Integer Discrete Invertible Watermark Network (IDIWN)** to achieve lossless and invertible mapping between cover-watermark pairs and stego images. It addresses the trade-off between robustness and reversibility in traditional robust reversible watermarking methods, offering significant improvements in robustness, visual quality, and computational efficiency.
+DRRW leverages an **Integer Discrete Invertible Watermark Network (ID-IWN)** to achieve lossless and invertible mapping between cover-watermark pairs and stego images. It addresses the trade-off between robustness and reversibility in traditional robust reversible watermarking methods, offering significant improvements in robustness, visual quality, and computational efficiency.
 
 Key features:
 - **Robustness**: Enhanced against distortions through an Encoder-Noise Layer-Decoder framework.
