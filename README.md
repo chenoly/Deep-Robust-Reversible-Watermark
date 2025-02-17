@@ -1,12 +1,13 @@
 <div align="center">
 <h1>Deep Robust Reversible Watermarking</h1>
 
-Jiale Chen<sup>1</sup>, Wei Wang<sup>2,3</sup>, Chongyang Shi<sup>1</sup>, Li Dong<sup>4</sup>, Xiping Hu<sup>2,3</sup>
+Jiale Chen<sup>1</sup>, Wei Wang<sup>2,3</sup>, Chongyang Shi<sup>1</sup>, Yuanman Li<sup>5</sup>, Li Dong<sup>4</sup>, Xiping Hu<sup>2,3</sup>
 
 <sup>1</sup>School of Computer Science and Technology, Beijing Institute of Technology, Beijing, China  
 <sup>2</sup>School of Medical Technology, Beijing Institute of Technology, Beijing, China  
 <sup>3</sup>Shenzhen MSU-BIT University, Shenzhen, China  
 <sup>4</sup>Department of Computer Science and Technology, Ningbo University, Ningbo, China  
+<sup>5</sup>College of Electronics and Information Engineering, Shenzhen University, Shenzhen, China  
 </div>
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
