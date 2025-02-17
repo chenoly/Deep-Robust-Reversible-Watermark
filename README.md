@@ -1,7 +1,7 @@
 <div align="center">
 <h1>Deep Robust Reversible Watermarking</h1>
 
-Jiale Chen<sup>1</sup>, Wei Wang<sup>2,3</sup>, Chongyang Shi<sup>1</sup>, Yuanman Li<sup>5</sup>, Li Dong<sup>4</sup>, Xiping Hu<sup>2,3</sup>
+Jiale Chen<sup>1</sup>, Wei Wang<sup>2,3</sup>, Chongyang Shi<sup>1</sup>, Li Dong<sup>4</sup>, Yuanman Li<sup>5</sup>, Xiping Hu<sup>2,3</sup>
 
 <sup>1</sup>School of Computer Science and Technology, Beijing Institute of Technology, Beijing, China  
 <sup>2</sup>School of Medical Technology, Beijing Institute of Technology, Beijing, China  
