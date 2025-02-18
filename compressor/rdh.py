@@ -112,7 +112,6 @@ class RDH:
         :param max_v:
         :param min_v:
         :param shifted_pe: The shifted prediction error.
-        :param pv: The predicted values.
         :param wm_list: The list of watermark bits to embed.
         :return:
         """
@@ -393,18 +392,16 @@ class RDH:
         watermark_list_next = watermark_list.copy()
         all_len = len(watermark_list)
         retain_watermark_len = all_len
+        watermark_list_now = watermark_list_next.copy()
 
         # Iteratively embed watermark bits into the cover image
         while not isDone:
             # Embed watermark bits in the image in one pass
             # 'isDone' indicates if the entire watermark has been embedded
             # 'watermark_list' is updated as bits are embedded
-            watermark_list_now = watermark_list_next.copy()
             isDone, marked_img, watermark_list_next = self.embed_once(marked_img, watermark_list_now, time4embedding)
             retain_watermark_len = len(watermark_list_next)
-            if len(watermark_list_now) < len(watermark_list_next):
-                break
-
+            watermark_list_now = watermark_list_next
             print(f"{time4embedding}-th embedding, retained bit length: {len(watermark_list_next)}")
             # Increment the embedding iteration counter
             time4embedding += 1
@@ -427,26 +424,26 @@ class RDH:
         pe_1, pe_2, pv_1, pv_2 = self.predicting_error(img4embed)
         shifted_pe_1, min_v_1, max_v_1, capacity = self.shift_predicting_error(pe_1, self.mask_o)
         embedded_pe_1, stopcoordinate_1, rest_wm_1 = self.reversible_embed(shifted_pe_1, min_v_1, max_v_1, self.mask_o, bits4lsb0img + watermark_list)
-        print(f"{time4embedding}-th embedding, the capacity is {capacity}...")
+        print(f"{time4embedding}-th embedding, the mask o capacity is {capacity}...")
         stego_img4embed_1, location_map_1 = self.compute_stego_img_and_location_map(embedded_pe_1, pe_2, pv_1, pv_2)
         pe_1, pe_2, pv_1, pv_2 = self.predicting_error(stego_img4embed_1)
         if rest_wm_1 is None:
             # ndarray_map = self.remove_redundant_nonoverflow(stopcoordinate_1, location_map_1, None)
             # location_map_1_ = self.remove_redundant_nonoverflow_reversibly(ndarray_map)
             # print(np.array_equal(location_map_1_, location_map_1))
-            print("Embed Auxiliary information:", time4embedding, stopcoordinate_1, min_v_1, max_v_1, 0)
+            # print("Embed Auxiliary information:", time4embedding, stopcoordinate_1, min_v_1, max_v_1, 0)
             bits4auxinfo = self.encode_auxiliary_information(np.asarray(location_map_1), time4embedding, stopcoordinate_1, min_v_1, max_v_1, flag=0)
             isfail, marked_img4locmap = self.embed_bits2imgbylsb(img4locmap, bits4auxinfo)
             watermarked_img = self.merge_img(stego_img4embed_1, marked_img4locmap)
             return True, np.clip(watermarked_img, 0, 255), []
         else:
             shifted_pe_2, min_v_2, max_v_2, capacity = self.shift_predicting_error(pe_2, self.mask_x)
+            print(f"{time4embedding}-th embedding, the mask x capacity is {capacity}...")
             embedded_pe_2, stopcoordinate_2, rest_wm_2 = self.reversible_embed(shifted_pe_2, min_v_2, max_v_2, self.mask_x, rest_wm_1)
             stego_img4embed_2, location_map_2 = self.compute_stego_img_and_location_map(pe_1, embedded_pe_2, pv_1, pv_2)
             location_map = location_map_1 | location_map_2
-            print("Embed Auxiliary information:", time4embedding, stopcoordinate_2, min_v_1, max_v_1, min_v_2, max_v_2, 1)
-            bits4auxinfo = self.encode_auxiliary_information(np.asarray(location_map), time4embedding, stopcoordinate_2,
-                                                             min_v_1, max_v_1, min_v_2, max_v_2, flag=1)
+            # print("Embed Auxiliary information:", time4embedding, stopcoordinate_2, min_v_1, max_v_1, min_v_2, max_v_2, 1)
+            bits4auxinfo = self.encode_auxiliary_information(np.asarray(location_map), time4embedding, stopcoordinate_2, min_v_1, max_v_1, min_v_2, max_v_2, flag=1)
             isfail, marked_img4locmap = self.embed_bits2imgbylsb(img4locmap, bits4auxinfo)
             watermarked_img = self.merge_img(stego_img4embed_2, marked_img4locmap)
             if rest_wm_2 is None:
@@ -494,24 +491,22 @@ class RDH:
         bits4lsb0img = self.extract_lsb0img(img4locmap)
         location_map_list, time4embedding, stopcoordinate, min_v_1, max_v_1, min_v_2, max_v_2, flag = self.decode_auxiliary_information(
             bits4lsb0img)
-        print("Extract Auxiliary information:", time4embedding, stopcoordinate, min_v_1, max_v_1, min_v_2, max_v_2, flag)
+        # print("Extract Auxiliary information:", time4embedding, stopcoordinate, min_v_1, max_v_1, min_v_2, max_v_2, flag)
         recovered_img0stego = self.recovery_overflowed_stego_img(img0stego, np.asarray(location_map_list).reshape(img0stego.shape))
         pe_1, pe_2, pv_1, pv_2 = self.predicting_error(recovered_img0stego)
+        np.save("pe_2_ext.npy", pe_2)
         isDone = True if time4embedding == 0 else False
         if flag == 1:
-            wm_list_2, recovered_embedded_pe_2 = self.reversible_extract(pe_2, min_v_2, max_v_2, self.mask_x,
-                                                                         stopcoordinate)
+            wm_list_2, recovered_embedded_pe_2 = self.reversible_extract(pe_2, min_v_2, max_v_2, self.mask_x, stopcoordinate)
             recovered_pe_2 = self.shift_predicting_error_reversibly(recovered_embedded_pe_2, min_v_2, max_v_2)
             recovered_img4embed_2, _ = self.compute_stego_img_and_location_map(pe_1, recovered_pe_2, pv_1, pv_2)
             pe_1, pe_2, pv_1, pv_2 = self.predicting_error(recovered_img4embed_2)
-            wm_list_1, recovered_embedded_pe_1 = self.reversible_extract(pe_1, min_v_1, max_v_1, self.mask_o,
-                                                                         (-1, -1, -1))
+            wm_list_1, recovered_embedded_pe_1 = self.reversible_extract(pe_1, min_v_1, max_v_1, self.mask_o, (0, 0, 0))
             recovered_pe_1 = self.shift_predicting_error_reversibly(recovered_embedded_pe_1, min_v_1, max_v_1)
             recovered_img4embed, _ = self.compute_stego_img_and_location_map(recovered_pe_1, pe_2, pv_1, pv_2)
             wm_list = wm_list_1 + wm_list_2
         else:
-            wm_list, recovered_embedded_pe_1 = self.reversible_extract(pe_1, min_v_1, max_v_1, self.mask_o,
-                                                                       stopcoordinate)
+            wm_list, recovered_embedded_pe_1 = self.reversible_extract(pe_1, min_v_1, max_v_1, self.mask_o, stopcoordinate)
             recovered_pe_1 = self.shift_predicting_error_reversibly(recovered_embedded_pe_1, min_v_1, max_v_1)
             recovered_img4embed, _ = self.compute_stego_img_and_location_map(recovered_pe_1, pe_2, pv_1, pv_2)
         _, recovered_img4locmap = self.embed_bits2imgbylsb(img4locmap, wm_list[:self.storage_len])
@@ -582,7 +577,6 @@ class RDH:
                     # Stop extraction when reaching the stop coordinate
                     if (h, w, c) == stopcoordinate:
                         return wm_list, recovered_pe  # Return the extracted bits and recovered image
-
         return wm_list, recovered_pe  # Return the watermark bits and fully recovered image
 
     def remove_redundant_nonoverflow(self, stop_corrdinate, location_map_1: ndarray = None,
