@@ -11,6 +11,17 @@ import matplotlib.pyplot as plt
 from .arithmeticcoder import CustomArithmeticEncoder
 
 
+
+
+'''
+Note: This version of the code contains several known issues and is intended solely for testing purposes.
+It may not function as expected in all scenarios and should not be considered a final implementation.
+The corrected and optimized version of the code will be provided after the associated research paper
+has been accepted for publication. Please use this code with caution and refer to the final version
+for production or further development. Updates and refinements are pending the completion of the
+peer-review process. Thank you for your understanding.
+'''
+
 class RDH:
     def __init__(self, img_size: Tuple[int, int, int], height_end: int = 3, bit_plane: int = 3, time_len: int = 5,
                  peak_len: int = 6,
