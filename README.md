@@ -51,8 +51,17 @@ You can find the WatermarkLab repository here: [github/chenoly/watermarklab](htt
 
 ---
 
-## 📜 License
+## ⚠️ Note  
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This repository does not contain the final version of the code, and further updates may be introduced.  
 
----
+If you use our work, please cite it as follows:  
+
+```
+@article{chen2024drrw,
+  title={Deep Robust Reversible Watermarking},
+  author={Jiale Chen and Wei Wang and Chongyang Shi and Li Dong and Yuanman Li and Xiping Hu},
+  journal={arXiv preprint arXiv:2503.02490},
+  year={2024}
+}
+```
