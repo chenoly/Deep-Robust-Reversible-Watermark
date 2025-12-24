@@ -135,7 +135,7 @@ print("L1 Pixel Difference:", diff_attacked)
 
 For evaluation and distortion layers, we utilize **WatermarkLab**, a comprehensive watermarking evaluation framework. WatermarkLab provides a wide range of distortion simulations and evaluation metrics to rigorously test the robustness and performance of watermarking algorithms.
 
-You can find the WatermarkLab repository here: [github/chenoly/watermarklab](https://github.com/chenoly/watermarklab)
+You can find the WatermarkLab repository here: [https://github.com/chenoly/watermarklab](https://watermarklab.github.io/)
 
 ---
 
