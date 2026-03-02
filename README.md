@@ -28,7 +28,7 @@ Key features:
 
 ## 🚀 Usage
 ```bash
-pip install crmark==0.1.1
+pip install crmark
 ```
 ---
 
